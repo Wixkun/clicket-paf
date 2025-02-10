@@ -6,7 +6,7 @@ import Head from 'next/head';
 
 export default function Home() {
   const ideas = [
-    "Un resto où tu ne choisis pas ton plat, c’est l’algorithme qui décide!",
+    "Un restaurant où tu ne choisis pas ton plat, c'est l'algorithme qui décide!",
     "Une application qui te génère une excuse parfaite pour annuler tes plans!",
     "Un frigo connecté qui te parle et te juge sur tes choix alimentaires!",
     "Un site de rencontres où seuls les gens qui détestent la même chose se matchent!",
@@ -26,11 +26,11 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Clicket Paf - Générateur d'idées absurdes</title>
-        <meta name="description" content="Découvrez des idées absurdes et hilarantes avec Clicket Paf. Un générateur unique pour booster votre créativité !" />
-        <meta name="keywords" content="idées absurdes, créativité, générateur d'idées, fun, humour, inspiration" />
+        <title>Clicket Paf - Générateur d'idées absurdes et créatives</title>
+        <meta name="description" content="Découvrez des idées absurdes et hilarantes avec Clicket Paf. Un générateur unique pour booster votre créativité et votre imagination !" />
+        <meta name="keywords" content="idées absurdes, créativité, générateur d'idées, inspiration, innovation, fun, humour" />
         <meta name="author" content="Clicket Paf Team" />
-        <meta property="og:title" content="Clicket Paf - Générateur d'idées absurdes" />
+        <meta property="og:title" content="Clicket Paf - Générateur d'idées créatives et originales" />
         <meta property="og:description" content="Amusez-vous avec des idées originales et surprenantes générées instantanément !" />
         <meta property="og:image" content="/public/og-image.jpg" />
         <meta property="og:type" content="website" />
@@ -43,8 +43,11 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Clicket Paf! 🎉 Générateur d'idées absurdes
+          Clicket Paf! 🎉 Générateur d'idées absurdes et créatives
         </motion.h1>
+        <motion.h2 className="text-2xl text-center mb-4 max-w-2xl">
+          Trouvez l'inspiration avec des idées originales et surprenantes !
+        </motion.h2>
 
         <motion.p
           key={idea}
@@ -61,8 +64,13 @@ export default function Home() {
           className="mt-6 px-6 py-3 bg-blue-500 text-white font-semibold rounded-xl shadow-md hover:bg-blue-600 transition"
           whileTap={{ scale: 0.9 }}
         >
-          Paf! Génère une idée 🎭
+          🎭 Paf! Génère une nouvelle idée
         </motion.button>
+
+        <section className="mt-12 max-w-3xl text-center">
+          <h2 className="text-2xl font-bold mb-4">Pourquoi utiliser Clicket Paf ?</h2>
+          <p className="text-lg text-gray-300">Vous cherchez de l'inspiration pour un projet, une startup ou simplement pour rire ? Clicket Paf vous propose des idées absurdes mais aussi innovantes pour éveiller votre créativité.</p>
+        </section>
       </div>
     </>
   );
