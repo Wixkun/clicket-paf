@@ -32,7 +32,6 @@ const HistoiresPage = () => {
         }
       )
       .subscribe();
-
     return () => {
       channel.unsubscribe();
     };
@@ -43,7 +42,9 @@ const HistoiresPage = () => {
     queryFn: async () => {
       try {
         const { data, error } = await supabase.from('histoires').select('*');
-        console.log(data);
+        if (error) {
+          throw error;
+        }
         return data;
       } catch (error) {
         console.error(error);
