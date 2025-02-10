@@ -24,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <meta property="og:title" content="ClickEtPaf - Histoires captivantes de tous genres" />
         <meta property="og:description" content="Plongez dans des récits inoubliables : Policier, Romance, SF, Fantastique... À lire absolument !" />
         <meta property="og:image" content="/images/click-et-paf-banner.jpg" />
-        <meta property="og:url" content="https://www.clicketpaf.com" />
+        <meta property="og:url" content="https://www.clicket-paf.com" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="ClickEtPaf" />
 
