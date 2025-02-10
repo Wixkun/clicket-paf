@@ -11,31 +11,31 @@ export default function RootLayout({ children }: LayoutProps) {
     <html lang="fr">
       <Head>
         {/* 🌍 SEO META TAGS */}
-        <title>Click et Paf - Histoires captivantes de tous genres</title>
-        <meta name="description" content="Découvrez des histoires immersives : policier, romance, science-fiction, fantastique et bien plus. Click et Paf, la bibliothèque des émotions fortes !" />
-        <meta name="keywords" content="histoires, lecture, romans, nouvelles, policier, science-fiction, fantastique, romance, Click et Paf" />
-        <meta name="author" content="Click et Paf Team" />
+        <title>ClickEtPaf - Histoires captivantes de tous genres</title>
+        <meta name="description" content="Découvrez des histoires immersives : policier, romance, science-fiction, fantastique et bien plus. ClickEtPaf, la bibliothèque des émotions fortes !" />
+        <meta name="keywords" content="histoires, lecture, romans, nouvelles, policier, science-fiction, fantastique, romance, ClickEtPaf" />
+        <meta name="author" content="ClickEtPaf Team" />
         <meta name="robots" content="index, follow" />
 
         {/* 📱 Responsive */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* 🏷️ Open Graph (Facebook, LinkedIn, etc.) */}
-        <meta property="og:title" content="Click et Paf - Histoires captivantes de tous genres" />
+        <meta property="og:title" content="ClickEtPaf - Histoires captivantes de tous genres" />
         <meta property="og:description" content="Plongez dans des récits inoubliables : Policier, Romance, SF, Fantastique... À lire absolument !" />
         <meta property="og:image" content="/images/click-et-paf-banner.jpg" />
         <meta property="og:url" content="https://www.clicketpaf.com" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Click et Paf" />
+        <meta property="og:site_name" content="ClickEtPaf" />
 
         {/* 🐦 Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Click et Paf - Histoires captivantes de tous genres" />
+        <meta name="twitter:title" content="ClickEtPaf - Histoires captivantes de tous genres" />
         <meta name="twitter:description" content="Découvrez des histoires immersives : Policier, Romance, SF, Fantastique..." />
-        <meta name="twitter:image" content="/images/click-et-paf-banner.jpg" />
+        <meta name="twitter:image" content="/images/clicketpaf.webp" />
 
         {/* 🌎 Favicon */}
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/logo.webp" />
       </Head>
 
       <body className="bg-gray-100 text-gray-900">
@@ -62,7 +62,7 @@ export default function RootLayout({ children }: LayoutProps) {
           </header>
           <main className="flex-grow">{children}</main>
           <footer className="bg-gray-800 text-white text-center py-4">
-            © 2024 Click et Paf. Tous droits réservés.
+            © 2024 ClickEtPaf. Tous droits réservés.
           </footer>
         </div>
       </body>
