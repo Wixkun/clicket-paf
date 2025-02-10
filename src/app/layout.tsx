@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <meta name="twitter:image" content="/images/clicketpaf.webp" />
 
         {/* 🌎 Favicon */}
-        <link rel="icon" href="/images/logo.webp" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <body className="bg-gray-100 text-gray-900">
