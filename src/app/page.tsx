@@ -2,22 +2,24 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function StoryBlog() {
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
+    <div className="bg-gray-100 min-h-screen">
+
+      
       {/* Header Section */}
-      <header className="text-center mb-8">
+      <header className="text-center mt-8 mb-8">
         <h1 className="text-4xl font-bold">
           Discover the World's <span className="text-gray-500">Greatest</span> Stories
         </h1>
         <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
           Plongez dans des récits captivants allant du policier à la romance, en passant par la science-fiction.
         </p>
-        <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+        <button className="mt-4 px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800">
           Explore More
         </button>
       </header>
       
       {/* Top Genres Section */}
-      <section className="mb-12">
+      <section className="mb-12 px-6">
         <h2 className="text-2xl font-semibold mb-4">Top Genres</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {["Policier", "Romance", "Science-Fiction", "Fantastique"].map((genre, index) => (
@@ -30,7 +32,7 @@ export default function StoryBlog() {
       </section>
       
       {/* Latest Stories Section */}
-      <section>
+      <section className="px-6">
         <h2 className="text-2xl font-semibold mb-4">Latest Stories</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <Card className="lg:col-span-2 p-4">
