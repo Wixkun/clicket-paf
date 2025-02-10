@@ -27,7 +27,7 @@ const HistoiresPage = () => {
           schema: 'public',
           table: 'histoires',
         },
-        (payload) => {
+        () => {
           queryClient.invalidateQueries({ queryKey: ['histoires'] });
         }
       )
@@ -38,11 +38,11 @@ const HistoiresPage = () => {
     };
   }, [queryClient]);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['histoires'],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase.from('histoires').select('*');
+        const { data } = await supabase.from('histoires').select('*');
         console.log(data);
         return data;
       } catch (error) {
