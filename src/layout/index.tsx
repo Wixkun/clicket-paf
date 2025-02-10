@@ -42,11 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
       <Navbar />
-      <main className="flex-grow pt-16 container mx-auto p-4">
-        <Card className="bg-gray-800 p-6">
-          {children}
-        </Card>
-      </main>
+      {children}
     </div>
   );
 };
