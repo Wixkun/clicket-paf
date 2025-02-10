@@ -36,7 +36,7 @@ interface LayoutProps {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="fr">
-      <body className={`antialiased`}>
+      <body style={{ margin: 0 }}>
         <ClientLayout>
           {children}
         </ClientLayout>
