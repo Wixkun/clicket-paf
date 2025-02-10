@@ -3,7 +3,7 @@ import "./globals.css";
 import ClientLayout from "./client_layout";
 
 export const metadata: Metadata = {
-  title: "Clicket Paf - Générateur d'histoires absurdes et hilarantes",
+  title: "Clicket Paf - Générateur d'histoires absurdes et hilarante",
   description: "Découvrez des histoires absurdes et hilarantes avec Clicket Paf. Un générateur unique pour booster votre créativité et votre imagination !",
 };
 
