@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   keywords: "histoires, absurdes, générateur, créativité, imagination, clicketpaf, humour, récits",
   robots: "index, follow",
   openGraph: {
-    title: "ClickEtPaf - Générateur d'histoires absurdes",
+    title: "ClickEtPaf ",
     description: "Plongez dans des histoires délirantes créées en un clic.",
     url: "https://www.clicket-paf.com",
     type: "website",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ClickEtPaf - Histoires absurdes et hilarantes",
+    title: "ClickEtPaf",
     description: "Découvrez des récits originaux générés aléatoirement.",
     site: "@ClickEtPaf",
     images: ["https://www.clicket-paf.com/images/cover.jpg"]
