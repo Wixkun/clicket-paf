@@ -3,7 +3,7 @@ import "./globals.css";
 import ClientLayout from "./client_layout";
 
 export const metadata: Metadata = {
-  title: "ClickEtPaf - Histoires absurdes et hilarantes",
+  title: "ClickEtPaf",
   description: "Découvrez des histoires absurdes et hilarantes avec ClickEtPaf. Un générateur unique pour booster votre créativité et votre imagination !",
   keywords: "histoires, absurdes, générateur, créativité, imagination, clicketpaf, humour, récits",
   robots: "index, follow",
