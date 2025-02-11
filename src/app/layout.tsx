@@ -3,44 +3,40 @@ import "./globals.css";
 import ClientLayout from "./client_layout";
 
 export const metadata: Metadata = {
-  title: "ClickEtPaf",
+  title: "ClickEtPaf - Histoires absurdes et hilarantes",
   description: "Découvrez des histoires absurdes et hilarantes avec ClickEtPaf. Un générateur unique pour booster votre créativité et votre imagination !",
-  keywords: "histoires, absurdes, générateur, créativité, imagination, clicketpaf, humour, récits", 
+  keywords: "histoires, absurdes, générateur, créativité, imagination, clicketpaf, humour, récits",
   robots: "index, follow",
   openGraph: {
-    title: "ClickEtPaf - Générateur d'histoires absurdes et hilarantes",
-    description: "Découvrez des histoires absurdes et hilarantes avec ClickEtPaf. Un générateur unique pour booster votre créativité et votre imagination !",
+    title: "ClickEtPaf - Générateur d'histoires absurdes",
+    description: "Plongez dans des histoires délirantes créées en un clic.",
     url: "https://www.clicket-paf.com",
     type: "website",
     images: [
       {
-        url: "/images/clicketpaf-banner.jpg",
+        url: "https://www.clicket-paf.com/images/cover.jpg",
         width: 1200,
         height: 630,
-        alt: "ClickEtPaf - Générateur d'histoires absurdes et hilarantes"
+        alt: "ClickEtPaf - Histoires absurdes"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "ClickEtPaf - Générateur d'histoires absurdes et hilarantes",
-    description: "Découvrez des histoires absurdes et hilarantes avec ClickEtPaf. Un générateur unique pour booster votre créativité et votre imagination !",
-    images: ["/images/clicketpaf-banner.jpg"]
+    title: "ClickEtPaf - Histoires absurdes et hilarantes",
+    description: "Découvrez des récits originaux générés aléatoirement.",
+    site: "@ClickEtPaf",
+    images: ["https://www.clicket-paf.com/images/cover.jpg"]
+  },
+  alternates: {
+    canonical: "https://www.clicket-paf.com",
+    languages: {
+      "fr": "https://www.clicket-paf.com/fr",
+      "en": "https://www.clicket-paf.com/en"
+    }
   }
 };
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: LayoutProps) {
-  return (
-    <html lang="fr">
-      <body style={{ margin: 0 }}>
-        <ClientLayout>
-          {children}
-        </ClientLayout>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <ClientLayout>{children}</ClientLayout>;
 }
