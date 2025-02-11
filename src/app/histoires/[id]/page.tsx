@@ -12,7 +12,7 @@ const HistoiresIdPage = () => {
   const id = params.id;
   const supabase = createClient();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['histoires', id],
     queryFn: async () => {
       try {
