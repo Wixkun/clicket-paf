@@ -16,7 +16,7 @@ const HistoiresIdPage = () => {
     queryKey: ['histoires', id],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase.from('histoires').select('*').eq('id', id).single();
+        const { data } = await supabase.from('histoires').select('*').eq('id', id).single();
         return data;
       } catch (error) {
         console.error(error);

@@ -53,15 +53,21 @@ const HistoiresPage = () => {
     },
   });
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (Error) {
+    return <div>Error: {Error.toString()}</div>;
   }
+
+  type Histoire = {
+    id: string;
+    titre: string;
+    contenu: string;
+  };  
 
   return (
     <Layout>
       {isLoading && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
-        {data?.map((histoire: any) => (
+        {data?.map((histoire: Histoire) => (
           <div key={histoire.id}>
             <Card className="h-full hover:bg-accent cursor-pointer" onClick={() => {
               router.push(`/histoires/${histoire.id}`);
@@ -76,8 +82,9 @@ const HistoiresPage = () => {
               </CardContent>
             </Card>
           </div>
-        ))}
-      </div>
+  ))}
+</div>
+
     </Layout>
   );
 };
