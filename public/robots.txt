@@ -1,9 +1,9 @@
-# *
 User-agent: *
 Allow: /
 
-# Host
-Host: https://www.clicket-paf.com
+User-agent: Googlebot
+Allow: /
 
-# Sitemaps
 Sitemap: https://www.clicket-paf.com/sitemap.xml
+
+Host: https://www.clicket-paf.com
