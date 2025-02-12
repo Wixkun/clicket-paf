@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
 
-import { Card } from "@/components/ui/card";
-
 interface LayoutProps {
   children: React.ReactNode;
 }
