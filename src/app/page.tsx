@@ -28,10 +28,8 @@ export default function StoryBlog() {
 
       {/* CTA Section */}
       <div className="text-center mt-6">
-        <Link href="/histoires">
-          <a className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+        <Link href="/histoires" className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
             Lire des Histoires
-          </a>
         </Link>
       </div>
 

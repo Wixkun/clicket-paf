@@ -31,12 +31,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.clicket-paf.com",
     languages: {
-      "fr": "https://www.clicket-paf.com/fr",
-      "en": "https://www.clicket-paf.com/en"
+      fr: "https://www.clicket-paf.com/fr",
+      en: "https://www.clicket-paf.com/en"
     }
   }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <ClientLayout>{children}</ClientLayout>;
+  return (
+    <html lang="fr">
+      <body> 
+        <ClientLayout>{children}</ClientLayout>
+      </body>
+    </html>
+  );
 }
