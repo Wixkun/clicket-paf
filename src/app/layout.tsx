@@ -17,7 +17,7 @@ export const metadata: Metadata = {
         url: "https://www.clicket-paf.com/images/cover.jpg",
         width: 1200,
         height: 630,
-        alt: "ClickEtPaf - Histoires absurdes"
+        alt: "ClickEtPaf"
       }
     ]
   },
