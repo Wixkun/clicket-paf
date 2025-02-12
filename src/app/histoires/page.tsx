@@ -129,7 +129,7 @@ const HistoiresPage = () => {
             })}
           </div>
         </aside>
-        <main className="w-full md:ml-[300px] p-4">
+        <main className="w-full md:ml-[300px] pl-4 pr-4">
           <div className="md:hidden flex gap-2 flex-wrap justify-center pb-4 mb-4">
             {genres?.map((genre) => {
               const isSelected = activesGenres.some(g => g.id === genre.id);
