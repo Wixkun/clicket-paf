@@ -20,7 +20,7 @@ const Header = ({variant}:{variant:string}) => {
   return (
     <header>
       <nav className={`fixed w-full py-4 z-10 max-md:justify-between max-md:px-8 flex justify-around items-center transition-colors duration-300 ${
-        (isTop && variant === "landing") ? "bg-transparent text-white" : "bg-white text-black"
+        (isTop && variant === "landing") ? "bg-transparent text-white" : "bg-white text-black border-b"
       }`}
            aria-label="Navigation principale"
       >
