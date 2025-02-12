@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
       ? "bg-transparent text-white"
       : isTop && variant === "landing" && isOpen
         ? "bg-black text-white"
-        : "bg-white text-black"
+        : "bg-white text-black border-b"
   }
   `;
 
