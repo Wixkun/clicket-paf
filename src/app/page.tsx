@@ -4,7 +4,6 @@ import Layout from "@/layout";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 
-// ! Important : importer les styles de Swiper
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
