@@ -3,7 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 interface LayoutProps {
-  variant: string;
+  variant?: "main" | "landing";
   children: React.ReactNode;
 }
 
