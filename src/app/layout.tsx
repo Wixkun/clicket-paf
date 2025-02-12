@@ -35,6 +35,7 @@ export const metadata: Metadata = {
       "en": "https://www.clicket-paf.com/en"
     }
   }
+
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
