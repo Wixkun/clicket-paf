@@ -47,6 +47,9 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      swiper:
+        specifier: ^11.2.3
+        version: 11.2.3
       tailwind-merge:
         specifier: ^3.0.1
         version: 3.0.1
@@ -1772,6 +1775,10 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  swiper@11.2.3:
+    resolution: {integrity: sha512-24m5tqHCd1Wmp9+86aKDoIGMsZGEjIL++3nuB1UjhAhIlvwj4k0Jikxu9PGQ/VswLpoje6JtMDWo12uu4aS2FA==}
+    engines: {node: '>= 4.7.0'}
 
   tailwind-merge@3.0.1:
     resolution: {integrity: sha512-AvzE8FmSoXC7nC+oU5GlQJbip2UO7tmOhOfQyOmPhrStOGXHU08j8mZEHZ4BmCqY5dWTCo4ClWkNyRNx1wpT0g==}
@@ -3856,6 +3863,8 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  swiper@11.2.3: {}
 
   tailwind-merge@3.0.1: {}
 

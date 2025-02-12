@@ -54,8 +54,9 @@ const HistoiresPage = () => {
     return <div className="text-red-500 text-center mt-4">Erreur : {error.message}</div>;
   }
 
+
   return (
-    <Layout>
+    <Layout variant={"main"}>
       <h1 className="text-3xl font-bold text-center my-4">Histoires</h1>
 
       {isLoading && (
