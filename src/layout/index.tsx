@@ -9,9 +9,9 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ variant = "main", children }) => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header variant={variant} />
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
       <Footer />
     </div>
   );
