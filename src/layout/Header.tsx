@@ -34,7 +34,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link href="/contact" className="text-black text-sm font-medium">
+            <Link href="/contact-us" className="text-black text-sm font-medium">
               Contact
             </Link>
           </li>
@@ -92,7 +92,7 @@ const Header = () => {
             </li>
             <li role="menuitem">
               <Link
-                href="/contact"
+                href="/contact-us"
                 className="text-black text-sm font-medium"
                 onClick={() => setIsOpen(false)}
               >
