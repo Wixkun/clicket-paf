@@ -35,10 +35,16 @@ export const metadata: Metadata = {
       en: "https://www.clicket-paf.com/en"
     }
   }
-
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="fr">
+      <body style={{ margin: 0 }}>
+        <ClientLayout>{children}</ClientLayout>
+      </body>
+    </html>
+  );
   return (
     <html lang="fr">
       <body> 

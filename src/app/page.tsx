@@ -1,38 +1,51 @@
-import Image from "next/image";
-import Link from "next/link";
+import { Card } from '@/components/ui/card';
+import Layout from '@/layout';
 
-export default function StoryBlog() {
+export default function HomePage() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      
-      {/* Header Section */}
-      <header className="text-center mt-8 mb-8">
-        <h1 className="text-4xl font-bold">
-          Découvrez des <span className="text-gray-500">Histoires Absurdes</span>
-        </h1>
-        <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
-          Plongez dans des récits captivants allant du policier au fantastique, avec une touche d'humour.
-        </p>
-      </header>
+    <Layout>
+      <div className="bg-gray-100 w-full">
+        <section className="text-center">
+          <h1 className="text-4xl font-bold">
+            Discover the World's <span className="text-gray-500">Greatest</span> Stories
+          </h1>
+          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+            Plongez dans des récits captivants allant du policier à la romance, en passant par la science-fiction.
+          </p>
+          <button className="mt-4 px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800">Explore More</button>
+        </section>
 
-      {/* Featured Image */}
-      <div className="flex justify-center">
-        <Image 
-          src="/images/story-cover.jpg" 
-          alt="Histoires absurdes en ligne" 
-          width={800} 
-          height={450} 
-          priority 
-        />
+        <section className="mb-12 px-6">
+          <h2 className="text-2xl font-semibold mb-4">Top Genres</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {['Policier', 'Romance', 'Science-Fiction', 'Fantastique'].map((genre, index) => (
+              <Card key={index} className="p-4 text-center">
+                <div className="bg-gray-300 h-40 w-full rounded-md mb-2"></div>
+                <p className="font-medium">{genre}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section className="px-6">
+          <h2 className="text-2xl font-semibold mb-4">Latest Stories</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <Card className="lg:col-span-2 p-4">
+              <div className="bg-gray-300 h-60 w-full rounded-md mb-2"></div>
+              <h3 className="font-semibold text-lg">Le Mystère du Manoir Abandonné</h3>
+              <p className="text-gray-600">Une enquête haletante dans un manoir aux secrets bien gardés.</p>
+            </Card>
+            <div className="space-y-4">
+              {['Un Amour Interdit', 'Les Chroniques du Futur', "L'Ombre du Détective"].map((story, index) => (
+                <Card key={index} className="p-4">
+                  <div className="bg-gray-300 h-20 w-full rounded-md mb-2"></div>
+                  <p className="font-medium">{story}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
-
-      {/* CTA Section */}
-      <div className="text-center mt-6">
-        <Link href="/histoires" className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
-            Lire des Histoires
-        </Link>
-      </div>
-
-    </div>
+    </Layout>
   );
 }

@@ -39,7 +39,7 @@ const HistoiresPage = () => {
     return () => {
       channel.unsubscribe();
     };
-  }, [queryClient, supabase]); 
+  }, [queryClient, supabase]);
 
   const { data, isLoading, error } = useQuery<Histoire[]>({
     queryKey: ["histoires"],
