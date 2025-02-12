@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientLayout from "./client_layout";
 
+if (typeof window !== "undefined") {
+  console.log = () => {};
+  console.error = () => {};
+  console.warn = () => {};
+  console.info = () => {};
+}
+
 export const metadata: Metadata = {
   title: "ClickEtPaf",
   description: "Découvrez des histoires absurdes et hilarantes avec ClickEtPaf. Un générateur unique pour booster votre créativité et votre imagination !",
