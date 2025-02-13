@@ -3,8 +3,9 @@
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
-
-const isLoggedIn = false;
+import { createClient } from "@/utils/supabase/client";
+import { User } from '@supabase/supabase-js';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   variant: string;
@@ -15,11 +16,25 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
   const [isTop, setIsTop] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const pathname = usePathname();
+  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => setIsTop(window.scrollY < 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setIsLoading(false);
+    };
+
+    getUser();
   }, []);
 
   useEffect(() => {
@@ -38,9 +53,14 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDropdownOpen]);
 
-  const handleLogout = () => {
-    alert("Utilisateur déconnecté (simulation)");
+  const handleLogout = async () => {
     setIsDropdownOpen(false);
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Erreur lors de la déconnexion:", error);
+    } else {
+      window.location.reload();
+    }
   };
 
   const navClasses = `
@@ -51,9 +71,22 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
       ? "bg-transparent text-white"
       : isTop && variant === "landing" && isOpen
         ? "bg-black text-white"
-        : "bg-white text-black border-b"
+        : "bg-white text-black border-b bg-opacity-95"
   }
   `;
+
+  if (isLoading) {
+    return (
+      <header>
+        <nav className={navClasses}>
+          <Link href="/" className="text-xl font-bold">
+            Click&Paf.
+          </Link>
+          <div className="animate-pulse h-8 w-24 bg-gray-200 rounded-full" />
+        </nav>
+      </header>
+    );
+  }
 
   return (
     <header>
@@ -79,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
             </Link>
           </li>
 
-          {isLoggedIn ? (
+          {user ? (
             <li className="relative" ref={dropdownRef}>
               <div
                 onMouseEnter={() => setIsDropdownOpen(true)}
@@ -115,8 +148,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
                   </Link>
                   <button
                     onClick={() => {
-                      setIsDropdownOpen(false);
-                      alert("Déconnexion");
+                      handleLogout();
                     }}
                     className="w-full text-left px-3 py-2 hover:bg-gray-200"
                   >
@@ -129,7 +161,10 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 
           ) : (
             <li>
-              <Link href="/login" className="transition px-4 py-2 rounded-full bg-white text-black hover:bg-black hover:text-white">
+              <Link
+                href={`/login?redirectTo=${encodeURIComponent(pathname)}`}
+                className="transition px-4 py-2 rounded-full bg-white text-black hover:bg-black hover:text-white"
+              >
                 Connexion
               </Link>
             </li>
@@ -167,26 +202,26 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
               </Link>
             </li>
 
-            {isLoggedIn ? (
-              <>
+              {user ? (
+                <>
+                  <li>
+                    <Link href="/profil" onClick={() => setIsOpen(false)} className="text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full">
+                      Profil
+                    </Link>
+                  </li>
+                  <li>
+                    <button onClick={() => { setIsOpen(false); handleLogout(); }} className="text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full">
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
                 <li>
-                  <Link href="/profil" onClick={() => setIsOpen(false)} className="text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full">
-                    Profil
+                  <Link href={`/login?redirectTo=${encodeURIComponent(pathname)}`} onClick={() => setIsOpen(false)} className="transition px-4 py-2 rounded-full bg-white text-black hover:bg-black hover:text-white">
+                    Connexion
                   </Link>
                 </li>
-                <li>
-                  <button onClick={() => { setIsOpen(false); handleLogout(); }} className="text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full">
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <li>
-                <Link href="/login" onClick={() => setIsOpen(false)} className="transition px-4 py-2 rounded-full bg-white text-black hover:bg-black hover:text-white">
-                  Connexion
-                </Link>
-              </li>
-            )}
+              )}
           </ul>
         </div>
       )}
