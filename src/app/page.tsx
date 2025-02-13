@@ -88,15 +88,14 @@ export default function HomePage() {
           {/** Hero texte (simple) **/}
           <section className="text-center px-6 pt-16 pb-20">
             <h1 className="text-5xl font-bold text-white mb-6">
-              Discover the World's{" "}
+              ClickEtPaf, un clique,{" "}
               <span className="bg-gradient-to-r from-violet-400 to-violet-600 text-transparent bg-clip-text">
-                Greatest
+                une histoire,
               </span>{" "}
-              Stories
+              une claque !
             </h1>
             <p className="text-gray-300 mt-4 max-w-2xl mx-auto text-lg">
-              Plongez dans des récits captivants allant du policier à la romance,
-              en passant par la science-fiction.
+              Plongez dans des récits courts mais percutants. Action, romance, science-fiction… chaque histoire vous embarque en un instant !
             </p>
             <button className="
               mt-8 px-8 py-3
@@ -107,7 +106,7 @@ export default function HomePage() {
               border border-violet-500
               shadow-lg shadow-violet-500/20
             ">
-              Explore More
+              Voir les histoires
             </button>
           </section>
 

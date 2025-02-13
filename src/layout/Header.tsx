@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
       <header>
         <nav className={navClasses}>
           <Link href="/" className="text-xl font-bold">
-            Click&Paf.
+            ClickEtPaf.
           </Link>
           <div className="animate-pulse h-8 w-24 bg-gray-200 rounded-full" />
         </nav>
@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
     <header>
       <nav className={navClasses} aria-label="Navigation principale">
         <Link href="/" className="text-xl font-bold" title="Retour à l'accueil">
-          Click&Paf.
+          ClickEtPaf.
         </Link>
 
         <ul className="hidden md:flex items-center gap-8">
