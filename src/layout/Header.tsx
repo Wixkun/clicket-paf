@@ -66,13 +66,9 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
   const navClasses = `
     fixed w-full py-4 z-10 transition-colors duration-300 max-md:px-8
     flex items-center justify-around max-md:justify-between
-    ${
-    isTop && variant === "landing" && !isOpen
-      ? "bg-transparent text-white"
-      : isTop && variant === "landing" && isOpen
-        ? "bg-black text-white"
-        : "bg-white text-black border-b bg-opacity-95"
-  }
+    ${variant === "landing"
+      ? (isTop && !isOpen ? "bg-transparent text-white" : "bg-zinc-950 text-white") 
+      : "bg-zinc-950 text-white border-b"}
   `;
 
   if (isLoading) {
