@@ -133,28 +133,18 @@ export default function HomePage() {
 					</nav>
 				</section>
 
-				<section className='mx-60 max-[1400px]:mx-10 mb-20'>
-					<h2 className='text-2xl font-semibold text-white mb-4'>
-						Top Genres
-					</h2>
-					<div className='grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1'>
-						{[
-							"Policier",
-							"Romance",
-							"Science-Fiction",
-							"Fantastique",
-						].map((genre, index) => (
-							<article key={index} className='w-full'>
-								<Link href={`/histoires?genre=${genre}`}>
-									<HistoireCard
-										image='/images/HistoireImg/img1.jpg'
-										title={genre}
-									/>
+				<section className="mx-60 max-[1400px]:mx-10 mb-20">
+					<h2 className="text-2xl font-semibold text-white mb-4">Top Genres</h2>
+					<div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
+						{genres.map((genre, index) => (
+							<article key={index} className="w-full">
+								<Link href={`/histoires?genre=${genre.name}`}>
+									<HistoireCard image={genre.img} title={genre.name} />
 								</Link>
 							</article>
 						))}
 					</div>
-				</section>
+				</section>;
 
 				<section className='mx-60 max-[1400px]:mx-10 mb-20'>
 					<h2 className='text-2xl font-semibold mb-4 text-white'>

@@ -155,14 +155,14 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 
 							{isDropdownOpen && (
 								<div
-									className='absolute right-0 mt-2 w-40 rounded-md shadow-md bg-[#171717] text-black'
+									className='absolute right-0 mt-2 w-40 rounded-md shadow-md bg-[#171717] text-white'
 									onMouseLeave={() =>
 										setIsDropdownOpen(false)
 									}
 								>
 									<Link
 										href='/profil'
-										className='block px-3 py-2 hover:bg-gray-200'
+										className='block px-3 py-2 hover:bg-gray-200 hover:text-black'
 										onClick={() => setIsDropdownOpen(false)}
 									>
 										Profil
@@ -171,7 +171,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 										onClick={() => {
 											handleLogout();
 										}}
-										className='w-full text-left px-3 py-2 hover:bg-gray-200'
+										className='w-full text-left px-3 py-2 hover:bg-gray-200 hover:text-black'
 									>
 										Logout
 									</button>
