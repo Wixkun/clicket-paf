@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
 export default function ClientLayout({
   children,
@@ -9,5 +10,9 @@ export default function ClientLayout({
   children: ReactNode;
 }>) {
   const queryClient = new QueryClient();
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+    </Suspense>
+  );
 }

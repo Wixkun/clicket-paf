@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import Layout from '@/layout';
 import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
@@ -8,8 +7,7 @@ import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import ReactMarkdown from 'react-markdown';
 
-const HistoiresIdPage = () => {
-  const params = useParams<{ slug: string }>();
+export default function HistoiresIdPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const supabase = createClient();
 
@@ -52,6 +50,4 @@ const HistoiresIdPage = () => {
       </main>
     </Layout>
   );
-};
-
-export default HistoiresIdPage;
+}

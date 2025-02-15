@@ -16,7 +16,7 @@ interface Genre {
   nom: string;
 }
 
-const HistoiresPage = () => {
+export default function HistoiresPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
@@ -184,7 +184,7 @@ const HistoiresPage = () => {
       </main>
     </Layout>
   );
-};
+}
 
 interface FilterProps {
   genresIsLoading: boolean;
@@ -281,5 +281,3 @@ const MobileFilter = ({ genresIsLoading, genres, activesGenres, setActivesGenres
     </header>
   );
 };
-
-export default HistoiresPage;
