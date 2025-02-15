@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
-const config = {
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: false,
+    dirs: ['src'],
+  },
   reactStrictMode: true,
 };
 
-module.exports = config;
+module.exports = nextConfig;
