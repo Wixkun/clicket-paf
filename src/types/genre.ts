@@ -1,6 +1,6 @@
 interface Genre {
-	id: string;
-	nom: string;
+  id: string;
+  nom: string;
 }
 
 export type { Genre };
