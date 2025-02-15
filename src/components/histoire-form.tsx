@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Genre } from "@/types/genre";
 
 export function HistoireForm({
-	className,
-	...props
-}: React.ComponentPropsWithoutRef<"div">) {
+															 className,
+															 ...props
+														 }: React.ComponentPropsWithoutRef<"div">) {
 	const supabase = createClient();
 	const [formData, setFormData] = useState({
 		titre: "",
@@ -19,6 +19,7 @@ export function HistoireForm({
 	const [blob, setBlob] = useState<File | null>(null);
 	const [preview, setPreview] = useState<string | null>(null);
 	const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const { data: user } = useQuery({
 		queryKey: ["user"],
@@ -87,7 +88,6 @@ export function HistoireForm({
 		}
 
 		try {
-			// 1. Insérer l'histoire
 			const { data, error } = await supabase
 				.from("histoires")
 				.insert({
@@ -101,7 +101,6 @@ export function HistoireForm({
 
 			if (error) throw error;
 
-			// 2. Upload de l'image
 			const { error: storageError } = await supabase.storage
 				.from("histoires")
 				.upload(`public/${data.id}`, blob, {
@@ -112,7 +111,6 @@ export function HistoireForm({
 
 			if (storageError) throw storageError;
 
-			// 3. Insérer les genres
 			const { error: genresError } = await supabase
 				.from("histoires_genres")
 				.insert(
@@ -124,8 +122,20 @@ export function HistoireForm({
 
 			if (genresError) throw genresError;
 
-			// Redirection ou message de succès
 			alert("Histoire créée avec succès!");
+
+			setFormData({
+				titre: "",
+				contenu: "",
+				auteur: "",
+				slug: "",
+			});
+			setBlob(null);
+			setPreview(null);
+			setSelectedGenres([]);
+			if (fileInputRef.current) {
+				fileInputRef.current.value = "";
+			}
 		} catch (error) {
 			console.error(error);
 			alert("Une erreur est survenue lors de la création de l'histoire");
@@ -134,34 +144,36 @@ export function HistoireForm({
 
 	return (
 		<main className={`max-w-md mx-auto p-6 ${className}`} {...props}>
-			<header className='text-center mb-6'>
-				<h1 className='text-2xl font-bold text-white mb-2'>Histoire</h1>
-				<p className='text-gray-300'>Entrez votre Histoire !</p>
+			<header className="text-center mb-6">
+				<h1 className="text-2xl font-bold text-white mb-2">Histoire</h1>
+				<p className="text-gray-300">Entrez votre Histoire !</p>
 			</header>
 			<section>
-				<form onSubmit={handleSubmit} className='space-y-4'>
+				<form
+					onSubmit={handleSubmit}
+					className="space-y-4"
+					aria-label="Formulaire d'histoire"
+				>
 					<div>
-						<label
-							htmlFor='image'
-							className='block text-sm font-medium'
-						>
+						<label htmlFor="image" className="block text-gray-300 font-medium">
 							Image
 						</label>
 						<input
-							type='file'
-							id='image'
-							name='image'
-							className='mt-1 block w-full rounded-md border-gray-300 shadow-sm'
+							ref={fileInputRef}
+							type="file"
+							id="image"
+							name="image"
 							required
-							accept='image/*'
+							accept="image/*"
 							onChange={handleImageChange}
+							className="w-full px-4 py-2 border border-gray-600 rounded-md bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
 						/>
 						{preview && (
-							<div className='mt-2'>
+							<div className="mt-2">
 								<img
 									src={preview}
-									alt='Aperçu'
-									className='max-w-full h-auto rounded-md'
+									alt="Aperçu"
+									className="max-w-full h-auto rounded-md"
 									style={{ maxHeight: "200px" }}
 								/>
 							</div>
@@ -169,65 +181,55 @@ export function HistoireForm({
 					</div>
 
 					<div>
-						<label
-							htmlFor='titre'
-							className='block text-sm font-medium'
-						>
+						<label htmlFor="titre" className="block text-gray-300 font-medium">
 							Titre
 						</label>
 						<input
-							type='text'
-							id='titre'
-							name='titre'
+							type="text"
+							id="titre"
+							name="titre"
 							value={formData.titre}
 							onChange={handleChange}
-							className='mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black'
 							required
+							className="w-full px-4 py-2 border border-gray-600 rounded-md bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
 						/>
 					</div>
 
 					<div>
-						<label
-							htmlFor='contenu'
-							className='block text-sm font-medium'
-						>
+						<label htmlFor="contenu" className="block text-gray-300 font-medium">
 							Contenu
 						</label>
 						<textarea
-							id='contenu'
-							name='contenu'
+							id="contenu"
+							name="contenu"
 							value={formData.contenu}
 							onChange={handleChange}
 							rows={5}
-							className='mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black'
 							required
+							className="w-full px-4 py-2 border border-gray-600 rounded-md bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
 						/>
 					</div>
+
 					<div>
-						<label
-							htmlFor='genres'
-							className='block text-sm font-medium'
-						>
+						<label htmlFor="genres" className="block text-gray-300 font-medium">
 							Genres
 						</label>
-						<div className='mt-2 flex flex-wrap gap-2'>
+						<div className="mt-2 flex flex-wrap gap-2">
 							{genres?.map((genre) => (
 								<button
 									key={genre.id}
-									type='button'
+									type="button"
 									onClick={() => {
 										setSelectedGenres((prev) =>
 											prev.includes(genre)
-												? prev.filter(
-														(g) => g.id !== genre.id
-												  )
+												? prev.filter((g) => g.id !== genre.id)
 												: [...prev, genre]
 										);
 									}}
-									className={`px-3 py-1 rounded-full text-sm ${
+									className={`px-4 py-2 rounded-md text-sm transition border ${
 										selectedGenres.includes(genre)
-											? "bg-blue-500 text-white"
-											: "bg-gray-200 text-gray-700"
+											? "bg-violet-600 text-white border-violet-600"
+											: "bg-black/30 text-white border-gray-600"
 									}`}
 								>
 									{genre.nom}
@@ -237,8 +239,8 @@ export function HistoireForm({
 					</div>
 
 					<button
-						type='submit'
-						className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600'
+						type="submit"
+						className="w-full bg-violet-600 text-white py-2 rounded-md hover:bg-violet-700 transition"
 					>
 						Soumettre
 					</button>
