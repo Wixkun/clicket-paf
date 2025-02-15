@@ -1,9 +1,4 @@
-# *
 User-agent: *
 Allow: /
-
-# Host
-Host: https://www.clicket-paf.com
-
-# Sitemaps
+Disallow: /api/
 Sitemap: https://www.clicket-paf.com/sitemap.xml
