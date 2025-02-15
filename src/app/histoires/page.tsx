@@ -132,7 +132,7 @@ const HistoiresPage = () => {
 					try {
 						const { data: imageData } = await supabase.storage
 							.from("histoires")
-							.createSignedUrl(`${histoire.id}/1.png`, 60);
+							.createSignedUrl(`public/${histoire.id}`, 60);
 						return {
 							...histoire,
 							image:
