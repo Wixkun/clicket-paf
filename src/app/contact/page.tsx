@@ -1,44 +1,43 @@
-import type { Metadata } from "next";
-import Layout from "@/layout";
-import React from "react";
+import type { Metadata } from 'next';
+import Layout from '@/layout';
+import React from 'react';
 
 export const metadata: Metadata = {
-  title: "Contactez-nous - ClickEtPaf",
+  title: 'Contactez-nous - ClickEtPaf',
   description:
     "Besoin d'aide, de renseignements ou envie de collaborer ? Contactez ClickEtPaf et rejoignez notre univers de storytelling absurde et créatif !",
-  keywords:
-    "contact ClickEtPaf, support, assistance, questions, générateur d'histoires, créativité, storytelling, humour, collaboration",
-  robots: "index, follow",
+  keywords: "contact ClickEtPaf, support, assistance, questions, générateur d'histoires, créativité, storytelling, humour, collaboration",
+  robots: 'index, follow',
   openGraph: {
-    title: "Contactez ClickEtPaf - Votre Générateur d’Histoires",
+    title: 'Contactez ClickEtPaf - Votre Générateur d’Histoires',
     description:
-      "Une question, une suggestion ou une envie de partenariat ? L’équipe de ClickEtPaf est à votre écoute. Contactez-nous dès maintenant !",
-    url: "https://www.clicket-paf.com/contact-us",
-    type: "article",
+      'Une question, une suggestion ou une envie de partenariat ? L’équipe de ClickEtPaf est à votre écoute. Contactez-nous dès maintenant !',
+    url: 'https://www.clicket-paf.com/contact-us',
+    type: 'article',
     images: [
       {
-        url: "https://www.clicket-paf.com/images/contact-cover.jpg",
+        url: 'https://www.clicket-paf.com/images/contact-cover.jpg',
         width: 1200,
         height: 630,
-        alt: "ClickEtPaf Contact"
-      }
-    ]
+        alt: 'ClickEtPaf Contact',
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Contactez ClickEtPaf - Assistance et Partenariats",
+    card: 'summary_large_image',
+    title: 'Contactez ClickEtPaf - Assistance et Partenariats',
     description:
-      "Une question ou une collaboration en tête ? Contactez ClickEtPaf et parlons de créativité, d’histoires et d’inspiration !",
-    site: "@ClickEtPaf",
-    images: ["https://www.clicket-paf.com/images/contact-cover.jpg"]
+      'Une question ou une collaboration en tête ? Contactez ClickEtPaf et parlons de créativité, d’histoires et d’inspiration !',
+    site: '@ClickEtPaf',
+    images: ['https://www.clicket-paf.com/images/contact-cover.jpg'],
   },
   alternates: {
-    canonical: "https://www.clicket-paf.com/contact",
+    canonical: 'https://www.clicket-paf.com/contact',
     languages: {
-      fr: "https://www.clicket-paf.com/contact",
-      en: "https://www.clicket-paf.com/en/contact"
-    }
-  }
+      fr: 'https://www.clicket-paf.com/contact',
+      en: 'https://www.clicket-paf.com/en/contact',
+    },
+  },
 };
 
 export default function ContactPage() {
@@ -49,17 +48,13 @@ export default function ContactPage() {
           <div className="flex flex-col items-center justify-center w-1/2">
             <h1 className="text-5xl max-sm:text-4xl font-bold text-white">ClickEtPaf</h1>
             <hr className="border-t border-white w-1/2" />
-            <h2 className="text-3xl bg-gradient-to-r from-violet-400 to-violet-600 text-transparent bg-clip-text">
-              Contact
-            </h2>
+            <h2 className="text-3xl bg-gradient-to-r from-violet-400 to-violet-600 text-transparent bg-clip-text">Contact</h2>
           </div>
 
           <div className="w-1/2 max-xl:w-full max-xl:px-20">
             <p className="text-gray-400 text-center">
-              <strong>
-                Une question, un projet, une idée what the fuck ? Nous sommes là pour vous écouter !
-              </strong>{" "}
-              Remplissez le formulaire ci-dessous ou envoyez-nous un email. On adore recevoir des messages (surtout les drôles).
+              <strong>Une question, un projet, une idée what the fuck ? Nous sommes là pour vous écouter !</strong> Remplissez le formulaire
+              ci-dessous ou envoyez-nous un email. On adore recevoir des messages (surtout les drôles).
             </p>
           </div>
         </header>
@@ -99,10 +94,7 @@ export default function ContactPage() {
                     rows={4}
                   ></textarea>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full bg-violet-600 text-white py-2 rounded-full hover:bg-violet-700 transition"
-                >
+                <button type="submit" className="w-full bg-violet-600 text-white py-2 rounded-full hover:bg-violet-700 transition">
                   Envoyer
                 </button>
               </form>
@@ -112,20 +104,20 @@ export default function ContactPage() {
               <ul className="w-full flex flex-col gap-4">
                 {[
                   {
-                    title: "Email",
-                    info: "contact@clicket-paf.com",
-                    icon: "📧"
+                    title: 'Email',
+                    info: 'contact@clicket-paf.com',
+                    icon: '📧',
                   },
                   {
-                    title: "Téléphone",
-                    info: "+33 1 23 45 67 89",
-                    icon: "📞"
+                    title: 'Téléphone',
+                    info: '+33 1 23 45 67 89',
+                    icon: '📞',
                   },
                   {
-                    title: "Réseaux Sociaux",
-                    info: "@ClickEtPaf",
-                    icon: "🌍"
-                  }
+                    title: 'Réseaux Sociaux',
+                    info: '@ClickEtPaf',
+                    icon: '🌍',
+                  },
                 ].map((contact, index) => (
                   <li
                     key={index}

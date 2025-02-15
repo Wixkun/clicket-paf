@@ -3,11 +3,11 @@ import Header from './Header';
 import Footer from './Footer';
 
 interface LayoutProps {
-  variant?: "main" | "landing";
+  variant?: 'main' | 'landing';
   children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ variant = "main", children }) => {
+const Layout: React.FC<LayoutProps> = ({ variant = 'main', children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-[#1e1f22] dark:bg-white text-white dark:text-black">
       <Header variant={variant} />
