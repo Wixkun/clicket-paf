@@ -24,7 +24,7 @@ const HistoiresIdPage = () => {
   return (
     <Layout>
       <h1 className="text-3xl font-bold">{data?.title}</h1>
-      <p className="text-gray-600">{data?.excerpt}</p>
+      <p className="text-gray-600">ClickEtPaf{data?.excerpt}</p>
     </Layout>
   );
 };

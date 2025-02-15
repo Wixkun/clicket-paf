@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientLayout from "./client_layout";
 
+if (typeof window !== "undefined") {
+  console.log = () => {};
+  console.error = () => {};
+  console.warn = () => {};
+  console.info = () => {};
+}
+
 export const metadata: Metadata = {
   title: "ClickEtPaf",
   description: "Découvrez des histoires absurdes et hilarantes avec ClickEtPaf. Un générateur unique pour booster votre créativité et votre imagination !",
@@ -31,8 +38,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.clicket-paf.com",
     languages: {
-      "fr": "https://www.clicket-paf.com/fr",
-      "en": "https://www.clicket-paf.com/en"
+      fr: "https://www.clicket-paf.com/fr",
+      en: "https://www.clicket-paf.com/en"
     }
   }
 };
@@ -41,6 +48,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body style={{ margin: 0 }}>
+        <ClientLayout>{children}</ClientLayout>
+      </body>
+    </html>
+  );
+  return (
+    <html lang="fr">
+      <body> 
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

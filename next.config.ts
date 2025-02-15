@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
+if (process.env.NODE_ENV === "production") {
+  console.log = () => {};
+  console.error = () => {};
+  console.warn = () => {};
+  console.info = () => {};
+}
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
 };
 
 export default nextConfig;
