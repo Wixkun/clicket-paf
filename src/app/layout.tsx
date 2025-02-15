@@ -52,11 +52,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
-  return (
-    <html lang="fr">
-      <body> 
-        <ClientLayout>{children}</ClientLayout>
-      </body>
-    </html>
-  );
 }

@@ -1,34 +1,22 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import Link from "next/link"
-import { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
-import { createClient } from "@/utils/supabase/client"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react";
+import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function LoginForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const [showPassword, setShowPassword] = useState(false)
-  const [password, setPassword] = useState("")
+                            className,
+                            ...props
+                          }: React.ComponentPropsWithoutRef<"div">) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
   const supabase = createClient();
   const [error, setError] = useState<Error | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo') || '/';
+  const redirectTo = searchParams.get("redirectTo") || "/";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,94 +25,122 @@ export function LoginForm({
     const password = formData.get("password") as string;
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
+        email,
+        password,
       });
       if (error) {
         throw error;
       }
-      console.log(data);
       router.push(redirectTo);
     } catch (error) {
       console.log(error);
       setError(error as Error);
     }
-  }
+  };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Signup</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  className="placeholder:text-gray-400"
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-500" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-gray-500" />
-                    )}
-                  </button>
-                </div>
-              </div>
-              {error && (
-                <div className="text-sm text-red-500 mb-4">
-                  {error.message || "Une erreur est survenue"}
-                </div>
-              )}
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
-              <Button variant="outline" className="w-full">
-                Login with Google
-              </Button>
+    <main className={`max-w-md mx-auto p-6 ${className}`} {...props}>
+      <header className="text-center mb-6">
+        <h1 className="text-2xl font-bold text-white mb-2">Connexion</h1>
+        <p className="text-gray-300">
+          Entrez vos identifiants pour vous connecter à votre compte
+        </p>
+      </header>
+      <section>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+          aria-label="Formulaire de connexion"
+        >
+          <div>
+            <label htmlFor="email" className="block text-gray-300 font-medium">
+              Email
+            </label>
+            <input
+              autoComplete="off"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="m@example.com"
+              required
+              className="w-full px-4 py-2 border border-gray-600 rounded-md bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-gray-300 font-medium"
+            >
+              Mot de passe
+            </label>
+            <div className="relative">
+              <input
+                autoComplete="off"
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Votre mot de passe"
+                className="w-full px-4 py-2 border border-gray-600 rounded-md bg-black/30 text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300"
+                aria-label={
+                  showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"
+                }
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Don't have an account ?{" "}
-              <Link href="/signup" className="underline underline-offset-4">
-                Signup
-              </Link>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Forgot your password ?{" "}
-              <Link href="/forgot-password" className="underline underline-offset-4">
-                Reset password
-              </Link>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  )
+          </div>
+          {error && (
+            <section role="alert" className="text-sm text-red-500">
+              {error.message || "Une erreur est survenue"}
+            </section>
+          )}
+          <button
+            type="submit"
+            className="w-full bg-violet-600 text-white py-2 rounded-md hover:bg-violet-700 transition"
+          >
+            Connexion
+          </button>
+          <button
+            type="button"
+            onClick={() => {}}
+            className="w-full bg-transparent border border-gray-600 text-white py-2 rounded-md hover:bg-gray-800 transition"
+          >
+            Connexion avec Google
+          </button>
+        </form>
+      </section>
+      <footer className="mt-4 text-center text-sm">
+        <p className="text-white">
+          Vous n'avez pas de compte ?{" "}
+          <Link
+            href="/signup"
+            className="underline underline-offset-4 text-violet-400"
+          >
+            inscrivez-vous
+          </Link>
+        </p>
+        <p className="text-white mt-2">
+          Mot de passe oublié ?{" "}
+          <Link
+            href="/forgot-password"
+            className="underline underline-offset-4 text-violet-400"
+          >
+            Réinitialiser mon mot de passe
+          </Link>
+        </p>
+      </footer>
+    </main>
+  );
 }
