@@ -228,6 +228,7 @@ export default function HomePage() {
 							))}
 					</div>
 				</section>
+
 				<section className='mx-60 max-[1400px]:mx-10 mb-20'>
 					<h2 className='text-2xl font-semibold mb-4 text-white'>
 						Latest Stories
