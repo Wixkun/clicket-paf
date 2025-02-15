@@ -50,6 +50,13 @@ const slidesData: SlideData[] = [
   },
 ];
 
+const genres = [
+  { name: "Policier", img: "/images/HistoireImg/genrePolicier.webp" },
+  { name: "Romance", img: "/images/HistoireImg/genreRomance.webp" },
+  { name: "Science-Fiction", img: "/images/HistoireImg/genreSCFI.webp" },
+  { name: "Fantastique", img: "/images/HistoireImg/genreFantasy.webp" }
+];
+
 export default function HomePage() {
   return (
     <Layout variant={"landing"}>
@@ -123,27 +130,26 @@ export default function HomePage() {
         <section className="mx-60 max-[1400px]:mx-10 mb-20">
           <h2 className="text-2xl font-semibold text-white">Top Genres</h2>
           <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
-            {["Policier", "Romance", "Science-Fiction", "Fantastique"].map((genre, index) => (
+            {genres.map((genre, index) => (
               <article key={index} className="w-full">
                 <figure
                   className="
-                    cursor-pointer
-                    rounded-2xl overflow-hidden
-                    bg-black/20 backdrop-blur-sm
-                    transition-all duration-300
-                    hover:scale-[1.02] hover:bg-black/40
-                  "
+            rounded-2xl overflow-hidden
+            bg-black/20 backdrop-blur-sm
+            transition-all duration-300
+            hover:scale-[1.02] hover:bg-black/40
+          "
                 >
                   <img
-                    src="/images/HistoireImg/img1.jpg"
-                    alt={genre}
+                    src={genre.img}
+                    alt={genre.name}
                     width={600}
                     height={400}
                     className="w-full h-64 object-cover opacity-90"
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                   />
                   <figcaption className="p-4">
-                    <h3 className="text-xl font-semibold text-white">{genre}</h3>
+                    <h3 className="text-xl font-semibold text-white">{genre.name}</h3>
                   </figcaption>
                 </figure>
               </article>
@@ -152,7 +158,7 @@ export default function HomePage() {
         </section>
 
         <section className="mx-60 max-[1400px]:mx-10 mb-20">
-          <h2 className="text-2xl font-semibold mb-4 text-white">Latest Stories</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-white">Les dernières histoires</h2>
           <div className="flex flex-row gap-4 w-full max-lg:flex-col">
             <article className="w-full">
               <div
