@@ -14,45 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/utils/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface SlideData {
-	date: string;
-	featured: boolean;
-	comments: number;
-	title: string;
-	excerpt: string;
-	imageUrl: string;
-}
-
-const slidesData: SlideData[] = [
-	{
-		date: "February 1, 2019",
-		featured: true,
-		comments: 6,
-		title: "At daybreak of the fifteenth day of my search",
-		excerpt:
-			"When the amphitheater had cleared I crept stealthily to the top and as the great excavation lay...",
-		imageUrl: "/images/HistoireImg/img1.jpg",
-	},
-	{
-		date: "March 12, 2019",
-		featured: false,
-		comments: 4,
-		title: "A mesmerizing journey into the unknown",
-		excerpt:
-			"Dust storms swirling across the desert, the expedition marched on...",
-		imageUrl: "/images/HistoireImg/img2.jpg",
-	},
-	{
-		date: "April 20, 2019",
-		featured: true,
-		comments: 10,
-		title: "Under the starlit sky",
-		excerpt:
-			"Night fell over the ruins, revealing secrets thought lost for centuries...",
-		imageUrl: "/images/HistoireImg/img3.jpg",
-	},
-];
-
 const genresMap = [
 	{ nom: "Fantastique", img: "/images/HistoireImg/genreFantasy.webp" },
 	{ nom: "Horreur", img: "/images/HistoireImg/genreHorreur.webp" },
@@ -67,6 +28,36 @@ const genresMap = [
 
 export default function HomePage() {
 	const supabase = createClient();
+
+	const { data: randomStories, isLoading: randomStoriesLoading } = useQuery({
+		queryKey: ["randomStories"],
+		queryFn: async () => {
+			try {
+				const { data, error } = await supabase.rpc(
+					"get_random_stories",
+					{
+						limit_count: 3,
+					}
+				);
+				if (error) throw error;
+				const newData = await Promise.all(
+					data.map(async (histoire: any) => {
+						const { data: imageData } = await supabase.storage
+							.from("histoires")
+							.createSignedUrl(`public/${histoire.id}`, 60);
+						return {
+							...histoire,
+							image: imageData?.signedUrl || "",
+						};
+					})
+				);
+				return newData;
+			} catch (error) {
+				console.error("Error fetching random stories:", error);
+				return [];
+			}
+		},
+	});
 
 	const { data: topGenres, isLoading: topGenresLoading } = useQuery({
 		queryKey: ["topGenres"],
@@ -116,6 +107,7 @@ export default function HomePage() {
 									"/images/HistoireImg/img1.jpg",
 							};
 						} catch (error) {
+							console.error("Error fetching image:", error);
 							return { ...histoire, image: null };
 						}
 					})
@@ -140,32 +132,44 @@ export default function HomePage() {
 						loop={true}
 						className='h-[500px] md:h-[600px] w-full'
 					>
-						{slidesData.map((slide, idx) => (
-							<SwiperSlide key={idx}>
-								<div className='relative w-full h-full'>
-									<img
-										src={slide.imageUrl}
-										alt={slide.title}
-										className='absolute top-0 left-0 w-full h-full object-cover'
-									/>
-									<div className='relative z-10 flex items-center h-full bg-black/50'>
-										<div className='max-w-xl text-white p-6 md:p-10'>
-											<p className='text-sm text-gray-200 mb-2'>
-												{slide.date}{" "}
-												{slide.featured && "• Featured"}{" "}
-												• {slide.comments} comments
-											</p>
-											<h2 className='text-2xl md:text-3xl font-bold mb-4'>
-												{slide.title}
-											</h2>
-											<p className='text-gray-100'>
-												{slide.excerpt}
-											</p>
+						{randomStoriesLoading &&
+							Array.from({ length: 3 }).map((_, index) => (
+								<SwiperSlide key={index}>
+									<Skeleton className='w-full h-full' />
+								</SwiperSlide>
+							))}
+						{randomStories &&
+							randomStories.map((slide, idx) => (
+								<SwiperSlide key={idx}>
+									<div className='relative w-full h-full'>
+										<img
+											src={slide.image}
+											alt={slide.titre}
+											className='absolute top-0 left-0 w-full h-full object-cover'
+										/>
+										<div className='relative z-10 flex items-center h-full bg-black/50'>
+											<div className='max-w-xl text-white p-6 md:p-10'>
+												<h2 className='text-2xl md:text-3xl font-bold mb-4'>
+													{slide.titre}
+												</h2>
+												<p className='text-gray-100'>
+													{slide.contenu.substring(
+														0,
+														100
+													)}
+													...
+												</p>
+												<Link
+													href={`/histoires/${slide.slug}`}
+													className='inline-block px-3 py-1.5 text-sm bg-violet-600 text-white rounded-full font-medium transition-all duration-300 hover:bg-violet-700 hover:scale-105 border border-violet-500 shadow-lg shadow-violet-500/20'
+												>
+													Lire la suite
+												</Link>
+											</div>
 										</div>
 									</div>
-								</div>
-							</SwiperSlide>
-						))}
+								</SwiperSlide>
+							))}
 					</Swiper>
 				</header>
 				<section className='flex flex-col gap-4 text-center items-center px-6 py-20'>
