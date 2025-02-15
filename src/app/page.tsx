@@ -85,7 +85,6 @@ export default function HomePage() {
 					}))
 					.sort((a: any, b: any) => b.count - a.count)
 					.slice(0, 4);
-				console.log(newData);
 				return newData;
 			} catch (error) {
 				console.error("Error fetching top genres:", error);
@@ -246,12 +245,16 @@ export default function HomePage() {
 						<article className='w-2/3 max-lg:w-full'>
 							{lastStoriesLoading && <Skeleton height='100%' />}
 							{lastStories && (
-								<HistoireCard
-									histoireWithImage={lastStories[0]}
-									showContent={true}
-									props='h-full'
-									imageProps='h-2/3 object-cover'
-								/>
+								<Link
+									href={`/histoires/${lastStories[0].slug}`}
+								>
+									<HistoireCard
+										histoireWithImage={lastStories[0]}
+										showContent={true}
+										props='h-full'
+										imageProps='h-2/3 object-cover'
+									/>
+								</Link>
 							)}
 						</article>
 						<aside className='w-1/3 flex flex-col gap-4 max-lg:w-full max-lg:grid max-lg:grid-cols-2 max-md:grid-cols-1'>
@@ -263,11 +266,15 @@ export default function HomePage() {
 								if (index === 0) return null;
 								return (
 									<article key={index} className='w-full'>
-										<HistoireCard
-											histoireWithImage={
-												histoireWithImage
-											}
-										/>
+										<Link
+											href={`/histoires/${histoireWithImage.slug}`}
+										>
+											<HistoireCard
+												histoireWithImage={
+													histoireWithImage
+												}
+											/>
+										</Link>
 									</article>
 								);
 							})}

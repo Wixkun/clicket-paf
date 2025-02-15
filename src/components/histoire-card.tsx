@@ -25,7 +25,7 @@ const HistoireCard = ({
       `}
 		>
 			<img
-				src={histoireWithImage.image}
+				src={histoireWithImage.image || "/images/HistoireImg/img1.jpg"}
 				alt={histoireWithImage.titre}
 				className={`w-full ${imageProps}`}
 			/>

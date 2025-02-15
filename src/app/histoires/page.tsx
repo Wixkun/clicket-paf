@@ -19,16 +19,8 @@ import Layout from "@/layout";
 import { createClient } from "@/utils/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import HistoireCard from "@/components/histoire-card";
-
-interface Histoire {
-	id: string;
-	titre: string;
-	contenu: string;
-	auteur: string;
-	created_at: string;
-	slug: string;
-	image: string | undefined | null;
-}
+import { HistoireWithImage } from "@/types/histoire";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Genre {
 	id: string;
@@ -47,14 +39,24 @@ const HistoiresPage = () => {
 
 	const {
 		data: genres,
-		isLoading: genresLoading,
+		isLoading: genresIsLoading,
 		error: genresError,
 	} = useQuery<Genre[]>({
 		queryKey: ["genres"],
 		queryFn: async () => {
-			const { data, error } = await supabase.from("genres").select("*");
-			if (error) throw error;
-			return data || [];
+			try {
+				const { data, error } = await supabase
+					.from("genres")
+					.select("*");
+				if (error) throw error;
+				return data;
+			} catch (error) {
+				console.error(
+					"Erreur lors de la récupération des genres :",
+					error
+				);
+				return [];
+			}
 		},
 	});
 
@@ -148,7 +150,7 @@ const HistoiresPage = () => {
 			setHasMore(histoiresWithImages.length === LIMIT);
 			return histoiresWithImages;
 		},
-		getNextPageParam: (lastPage, pages) => {
+		getNextPageParam: (_, pages) => {
 			if (!hasMore) return undefined;
 			return pages.length + 1;
 		},
@@ -187,13 +189,15 @@ const HistoiresPage = () => {
 		<Layout variant='main'>
 			<main className='pt-20 flex'>
 				<DrawerFilter
-					genres={genres || []}
+					genresIsLoading={genresIsLoading}
+					genres={genres}
 					activesGenres={activesGenres}
 					setActivesGenres={setActivesGenres}
 				/>
 				<section className='w-full md:ml-[300px] pl-4 pr-4'>
 					<MobileFilter
-						genres={genres || []}
+						genresIsLoading={genresIsLoading}
+						genres={genres}
 						activesGenres={activesGenres}
 						setActivesGenres={setActivesGenres}
 					/>
@@ -202,24 +206,28 @@ const HistoiresPage = () => {
 						aria-label="Liste d'histoires"
 					>
 						{infiniteData?.pages.map((page, pageIndex) =>
-							page.map((histoire: Histoire, index: number) => (
-								<Link
-									href={`/histoires/${histoire.slug}`}
-									key={histoire.id}
-									ref={
-										pageIndex ===
-											infiniteData.pages.length - 1 &&
-										index === page.length - 1
-											? lastHistoireRef
-											: undefined
-									}
-								>
-									<HistoireCard
-										image={histoire.image || ""}
-										title={histoire.titre}
-									/>
-								</Link>
-							))
+							page.map(
+								(
+									histoire: HistoireWithImage,
+									index: number
+								) => (
+									<Link
+										href={`/histoires/${histoire.slug}`}
+										key={histoire.id}
+										ref={
+											pageIndex ===
+												infiniteData.pages.length - 1 &&
+											index === page.length - 1
+												? lastHistoireRef
+												: undefined
+										}
+									>
+										<HistoireCard
+											histoireWithImage={histoire}
+										/>
+									</Link>
+								)
+							)
 						)}
 					</section>
 					{isFetchingNextPage && (
@@ -232,12 +240,14 @@ const HistoiresPage = () => {
 };
 
 interface FilterProps {
-	genres: Genre[];
+	genresIsLoading: boolean;
+	genres: Genre[] | undefined;
 	activesGenres: Genre[];
 	setActivesGenres: Dispatch<SetStateAction<Genre[]>>;
 }
 
 const DrawerFilter = ({
+	genresIsLoading,
 	genres,
 	activesGenres,
 	setActivesGenres,
@@ -252,46 +262,52 @@ const DrawerFilter = ({
 			</header>
 			<nav>
 				<ul className='flex flex-col gap-2'>
-					{genres?.map((genre: Genre) => {
-						const isSelected = activesGenres.some(
-							(g) => g.id === genre.id
-						);
-						return (
-							<li key={genre.id}>
-								<Badge
-									variant={
-										isSelected ? "default" : "secondary"
-									}
-									className={`
-                        w-full py-2 justify-between flex items-center
-                        hover:scale-[1.02] transition-all cursor-pointer
-                        ${
-							isSelected
-								? "bg-primary/20 hover:bg-primary/30"
-								: "hover:bg-accent"
-						}
-                      `}
-									onClick={() => {
-										if (isSelected) {
-											setActivesGenres((prev) =>
-												prev.filter(
-													(g) => g.id !== genre.id
-												)
-											);
-										} else {
-											setActivesGenres((prev) => [
-												...prev,
-												genre,
-											]);
-										}
-									}}
-								>
-									{genre.nom}
-									{isSelected && <span>✓</span>}
-								</Badge>
-							</li>
-						);
-					})}
+					{genresIsLoading
+						? Array.from({ length: 5 }).map((_, index) => (
+								<li key={index}>
+									<Skeleton className='h-4 w-full' />
+								</li>
+						  ))
+						: genres?.map((genre: Genre) => {
+								const isSelected = activesGenres.some(
+									(g) => g.id === genre.id
+								);
+								return (
+									<li key={genre.id}>
+										<Badge
+											variant={
+												isSelected
+													? "default"
+													: "secondary"
+											}
+											className={`
+											w-full py-2 justify-between flex items-center
+											hover:scale-[1.02] transition-all cursor-pointer
+											${isSelected ? "bg-primary/20 hover:bg-primary/30" : "hover:bg-accent"}
+										`}
+											onClick={() => {
+												if (isSelected) {
+													setActivesGenres((prev) =>
+														prev.filter(
+															(g) =>
+																g.id !==
+																genre.id
+														)
+													);
+												} else {
+													setActivesGenres((prev) => [
+														...prev,
+														genre,
+													]);
+												}
+											}}
+										>
+											{genre.nom}
+											{isSelected && <span>✓</span>}
+										</Badge>
+									</li>
+								);
+						  })}
 				</ul>
 			</nav>
 		</aside>
@@ -299,6 +315,7 @@ const DrawerFilter = ({
 };
 
 const MobileFilter = ({
+	genresIsLoading,
 	genres,
 	activesGenres,
 	setActivesGenres,
@@ -307,17 +324,25 @@ const MobileFilter = ({
 		<header className='md:hidden'>
 			<nav>
 				<ul className='flex gap-2 flex-wrap justify-center pb-4 mb-4'>
-					{genres?.map((genre: Genre) => {
-						const isSelected = activesGenres.some(
-							(g) => g.id === genre.id
-						);
-						return (
-							<li key={genre.id}>
-								<Badge
-									variant={
-										isSelected ? "secondary" : "outline"
-									}
-									className={`
+					{genresIsLoading
+						? Array.from({ length: 5 }).map((_, index) => (
+								<li key={index}>
+									<Skeleton className='h-4 w-full' />
+								</li>
+						  ))
+						: genres?.map((genre: Genre) => {
+								const isSelected = activesGenres.some(
+									(g) => g.id === genre.id
+								);
+								return (
+									<li key={genre.id}>
+										<Badge
+											variant={
+												isSelected
+													? "secondary"
+													: "outline"
+											}
+											className={`
                           hover:scale-[1.02] transition-all cursor-pointer
                           ${
 								isSelected
@@ -325,29 +350,31 @@ const MobileFilter = ({
 									: "hover:bg-accent"
 							}
                         `}
-									onClick={() => {
-										if (isSelected) {
-											setActivesGenres((prev) =>
-												prev.filter(
-													(g) => g.id !== genre.id
-												)
-											);
-										} else {
-											setActivesGenres((prev) => [
-												...prev,
-												genre,
-											]);
-										}
-									}}
-								>
-									{genre.nom}
-									{isSelected && (
-										<span className='ml-1'>✓</span>
-									)}
-								</Badge>
-							</li>
-						);
-					})}
+											onClick={() => {
+												if (isSelected) {
+													setActivesGenres((prev) =>
+														prev.filter(
+															(g) =>
+																g.id !==
+																genre.id
+														)
+													);
+												} else {
+													setActivesGenres((prev) => [
+														...prev,
+														genre,
+													]);
+												}
+											}}
+										>
+											{genre.nom}
+											{isSelected && (
+												<span className='ml-1'>✓</span>
+											)}
+										</Badge>
+									</li>
+								);
+						  })}
 				</ul>
 			</nav>
 		</header>

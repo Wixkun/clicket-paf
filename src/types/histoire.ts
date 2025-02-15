@@ -8,5 +8,5 @@ export interface Histoire {
 }
 
 export interface HistoireWithImage extends Histoire {
-	image: string;
+	image: string | null | undefined;
 }
