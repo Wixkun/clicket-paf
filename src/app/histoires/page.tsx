@@ -99,7 +99,7 @@ const HistoiresPage = () => {
     <Layout variant="main">
       <main className="pt-20 flex">
         <aside
-          className="hidden md:block w-[300px] bg-black h-full border-r p-4 fixed left-0 top-0 pt-20"
+          className="hidden md:block w-[300px] bg-[#171717] h-full border-r p-4 fixed left-0 top-0 pt-20"
           aria-label="Filtres de recherche"
         >
           <header>

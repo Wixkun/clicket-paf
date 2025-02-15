@@ -76,8 +76,8 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 		variant === "landing"
 			? isTop && !isOpen
 				? "bg-transparent text-white"
-				: "bg-zinc-950 text-white"
-			: "bg-zinc-950 text-white border-b"
+				: "bg-[#171717] text-white"
+			: "bg-[#171717] text-white border-b"
 	}
   `;
 
@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 					<Link href='/' className='text-xl font-bold'>
 						ClickEtPaf.
 					</Link>
-					<div className='animate-pulse h-8 w-24 bg-gray-200 rounded-full' />
+					<div className='animate-pulse h-8 w-24 bg-[#171717] rounded-full' />
 				</nav>
 			</header>
 		);
@@ -155,7 +155,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 
 							{isDropdownOpen && (
 								<div
-									className='absolute right-0 mt-2 w-40 rounded-md shadow-md bg-white text-black'
+									className='absolute right-0 mt-2 w-40 rounded-md shadow-md bg-[#171717] text-black'
 									onMouseLeave={() =>
 										setIsDropdownOpen(false)
 									}
@@ -214,7 +214,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
             ${
 				isTop && variant === "landing"
 					? "bg-black text-white"
-					: "bg-white text-black"
+					: "bg-[#171717] text-white"
 			}
           `}
 				>

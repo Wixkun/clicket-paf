@@ -3,7 +3,7 @@ import { FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
 	return (
-		<footer className="flex flex-col w-full border-t z-10 bg-black text-white py-10 gap-8">
+		<footer className="flex flex-col w-full border-t z-10 bg-[#171717] text-white py-10 gap-8">
 			<section className="flex flex-row justify-around max-sm:flex-col max-sm:items-center">
 				<div>
 					<h2 className="text-2xl font-bold max-sm:text-center">ClickEtPaf</h2>
