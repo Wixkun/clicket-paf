@@ -50,6 +50,13 @@ const slidesData: SlideData[] = [
 	},
 ];
 
+const genres = [
+	{ name: "Policier", img: "/images/HistoireImg/genrePolicier.webp" },
+	{ name: "Romance", img: "/images/HistoireImg/genreRomance.webp" },
+	{ name: "Science-Fiction", img: "/images/HistoireImg/genreSCFI.webp" },
+	{ name: "Fantastique", img: "/images/HistoireImg/genreFantasy.webp" },
+];
+
 export default function HomePage() {
 	return (
 		<Layout variant={"landing"}>

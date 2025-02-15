@@ -112,13 +112,13 @@ export function LoginForm({
           >
             Connexion
           </button>
-          <button
+         {/* <button
             type="button"
             onClick={() => {}}
             className="w-full bg-transparent border border-gray-600 text-white py-2 rounded-md hover:bg-gray-800 transition"
           >
             Connexion avec Google
-          </button>
+          </button>*/}
         </form>
       </section>
       <footer className="mt-4 text-center text-sm">
