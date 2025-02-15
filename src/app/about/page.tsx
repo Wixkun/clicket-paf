@@ -199,10 +199,10 @@ export default function AboutPage() {
               </strong>.
             </p>
             <div className="flex justify-center space-x-4 mt-4">
-              <Link href="#" className="text-gray-400 hover:text-white">
+              <Link href="https://www.instagram.com/clicketpaf_?igsh=bmlsNmZib3A3ZXN0&utm_source=qr" className="text-gray-400 hover:text-white">
                 <FaInstagram size={20} />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
+              <Link href="https://www.linkedin.com/in/clicket-paf-9900b8351/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" className="text-gray-400 hover:text-white">
                 <FaLinkedin size={20} />
               </Link>
             </div>
