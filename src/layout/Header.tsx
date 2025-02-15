@@ -76,8 +76,8 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 		variant === "landing"
 			? isTop && !isOpen
 				? "bg-transparent text-white"
-				: "bg-zinc-950 text-white"
-			: "bg-zinc-950 text-white border-b"
+				: "bg-[#171717] text-white"
+			: "bg-[#171717] text-white border-b"
 	}
   `;
 
