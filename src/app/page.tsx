@@ -10,6 +10,9 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import Layout from "@/layout";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { createClient } from "@/utils/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SlideData {
 	date: string;
@@ -58,6 +61,69 @@ const genres = [
 ];
 
 export default function HomePage() {
+	const supabase = createClient();
+
+	const { data: topGenres, isLoading: topGenresLoading } = useQuery({
+		queryKey: ["topGenres"],
+		queryFn: async () => {
+			try {
+				const { data, error } = await supabase
+					.from("histoires_genres")
+					.select("genre:genre_id(nom), count:genre_id", {
+						count: "exact",
+					});
+				if (error) throw error;
+				const newData = data
+					.map((item: any) => ({
+						nom: item.genre.nom,
+						count: item.count,
+					}))
+					.sort((a: any, b: any) => b.count - a.count)
+					.slice(0, 4);
+				console.log(newData);
+				return newData;
+			} catch (error) {
+				console.error("Error fetching top genres:", error);
+				return [];
+			}
+		},
+	});
+
+	const { data: lastStories, isLoading: lastStoriesLoading } = useQuery({
+		queryKey: ["lastStories"],
+		queryFn: async () => {
+			try {
+				const { data, error } = await supabase
+					.from("histoires")
+					.select("*")
+					.order("created_at", { ascending: false })
+					.limit(4);
+				if (error) throw error;
+				const histoiresWithImages = await Promise.all(
+					data.map(async (histoire) => {
+						try {
+							const { data: imageData } = await supabase.storage
+								.from("histoires")
+								.createSignedUrl(`public/${histoire.id}`, 60);
+							return {
+								...histoire,
+								image:
+									imageData?.signedUrl ||
+									"/images/HistoireImg/img1.jpg",
+							};
+						} catch (error) {
+							return { ...histoire, image: null };
+						}
+					})
+				);
+				return histoiresWithImages || [];
+			} catch (error) {
+				console.error("Error fetching last stories:", error);
+				return [];
+			}
+		},
+	});
+
 	return (
 		<Layout variant={"landing"}>
 			<main>
@@ -98,7 +164,6 @@ export default function HomePage() {
 						))}
 					</Swiper>
 				</header>
-
 				<section className='flex flex-col gap-4 text-center items-center px-6 py-20'>
 					<header>
 						<h1 className='text-5xl max-sm:text-2xl font-bold text-white'>
@@ -132,65 +197,70 @@ export default function HomePage() {
 						</Link>
 					</nav>
 				</section>
-
-				<section className="mx-60 max-[1400px]:mx-10 mb-20">
-					<h2 className="text-2xl font-semibold text-white mb-4">Top Genres</h2>
-					<div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
-						{genres.map((genre, index) => (
-							<article key={index} className="w-full">
-								<Link href={`/histoires?genre=${genre.name}`}>
-									<HistoireCard image={genre.img} title={genre.name} />
-								</Link>
-							</article>
-						))}
+				<section className='mx-60 max-[1400px]:mx-10 mb-20'>
+					<h2 className='text-2xl font-semibold text-white mb-4'>
+						Top Genres
+					</h2>
+					<div className='grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-md:grid-cols-1'>
+						{topGenresLoading &&
+							Array.from({ length: 4 }).map((_, index) => (
+								<Skeleton key={index} height='100%' />
+							))}
+						{topGenres &&
+							topGenres.map((genre, index) => (
+								<article key={index} className='w-full'>
+									<Link
+										href={`/histoires?genre=${genre.nom}`}
+									>
+										<HistoireCard
+											histoireWithImage={{
+												id: "",
+												image: "",
+												titre: genre.nom,
+												contenu: "",
+												auteur: "",
+												created_at: "",
+												slug: "",
+											}}
+										/>
+									</Link>
+								</article>
+							))}
 					</div>
-				</section>;
-
+				</section>
 				<section className='mx-60 max-[1400px]:mx-10 mb-20'>
 					<h2 className='text-2xl font-semibold mb-4 text-white'>
 						Latest Stories
 					</h2>
 					<div className='flex flex-row gap-4 w-full max-lg:flex-col'>
-						<article className='w-full'>
-							<div
-								className='
-                  cursor-pointer
-                  rounded-2xl overflow-hidden
-                  bg-black/20 backdrop-blur-sm
-                  transition-all duration-300
-                  hover:scale-[1.02] hover:bg-black/40
-                  h-full
-                '
-							>
-								<img
-									src='/images/HistoireImg/img1.jpg'
-									alt='Featured Story'
-									className='w-full h-[400px] object-cover opacity-90'
+						<article className='w-2/3 max-lg:w-full'>
+							{lastStoriesLoading && <Skeleton height='100%' />}
+							{lastStories && (
+								<HistoireCard
+									histoireWithImage={lastStories[0]}
+									showContent={true}
+									props='h-full'
+									imageProps='h-2/3 object-cover'
 								/>
-								<div className='p-6'>
-									<h3 className='font-semibold text-xl max-md:text-md text-white mb-2'>
-										Le Mystère du Manoir Abandonné
-									</h3>
-									<p className='text-gray-300 max-md:text-sm'>
-										Une enquête haletante dans un manoir aux
-										secrets bien gardés.
-									</p>
-								</div>
-							</div>
+							)}
 						</article>
-						<aside className='w-1/3 flex flex-col gap-4 max-lg:w-full max-lg:flex max-lg:flex-row max-md:flex-col'>
-							{[
-								"Un Amour Interdit",
-								"Les Chroniques du Futur",
-								"L'Ombre du Détective",
-							].map((story, index) => (
-								<article key={index} className='w-full'>
-									<HistoireCard
-										image='/images/HistoireImg/img1.jpg'
-										title={story}
-									/>
-								</article>
-							))}
+						<aside className='w-1/3 flex flex-col gap-4 max-lg:w-full max-lg:grid max-lg:grid-cols-2 max-md:grid-cols-1'>
+							{lastStoriesLoading &&
+								Array.from({ length: 3 }).map((_, index) => (
+									<Skeleton key={index} height='100%' />
+								))}
+							{lastStories?.map((histoireWithImage, index) => {
+								if (index === 0) return null;
+								return (
+									<article key={index} className='w-full'>
+										<HistoireCard
+											histoireWithImage={
+												histoireWithImage
+											}
+										/>
+									</article>
+								);
+							})}
 						</aside>
 					</div>
 				</section>
