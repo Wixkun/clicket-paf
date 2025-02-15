@@ -63,7 +63,7 @@ export default function ContactPage() {
           <h2 className="text-2xl font-semibold mb-4">Nos coordonnées</h2>
           <div className="flex flex-row gap-4 w-full max-lg:flex-col">
             <article className="w-full bg-black/20 backdrop-blur-sm shadow-md p-6 rounded-xl">
-              <form action="https://formspree.io/f/mleqzgdw" method="POST" className="space-y-4">
+              <form action="https://formspree.io/f/mkgoqpjl" method="POST" className="space-y-4">
                 <div>
                   <label className="block text-gray-300 font-medium">Nom</label>
                   <input
