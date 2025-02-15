@@ -3,12 +3,12 @@ import { FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
 	return (
-		<footer className='flex flex-col w-full bg-black text-white py-10 gap-8'>
+		<footer className='flex flex-col w-full border-t z-10 bg-black text-white py-10 gap-8'>
 			<div className='flex flex-row justify-around'>
 				<div>
 					<h2 className='text-2xl font-bold'>ClickEtPaf</h2>
 					<p className='text-gray-400'>
-						Un clic, une histoire, une claque !
+						Une recherche, un clic, une histoire, une claque !
 					</p>
 				</div>
 

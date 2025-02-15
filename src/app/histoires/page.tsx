@@ -99,8 +99,8 @@ const HistoiresPage = () => {
   return (
     <Layout variant={"main"}>
       <div className="flex pt-20">
-        {/* Sidebar - cachée sur mobile */}
-        <aside className="hidden md:block w-[300px] min-h-screen border-r p-4 fixed left-0 top-0 pt-20">
+
+        <aside className="hidden md:block w-[300px] bg-black h-full border-r p-4 fixed left-0 top-0 pt-20">
           <h2 className="text-lg font-semibold mb-4">Filtres</h2>
           <div className="flex flex-col gap-2">
             {genres?.map((genre) => {
@@ -156,7 +156,6 @@ const HistoiresPage = () => {
             })}
           </div>
 
-          {/* Grid des histoires - une colonne sur mobile */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {data?.map((histoire: any, index: number) => (
               <Card
