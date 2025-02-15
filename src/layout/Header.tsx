@@ -70,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ variant }) => {
 	};
 
 	const navClasses = `
-    fixed w-full py-4 z-10 transition-colors duration-300 max-md:px-8
+    fixed w-full py-4 z-20 transition-colors duration-300 max-md:px-8
     flex items-center justify-around max-md:justify-between
     ${
 		variant === "landing"
