@@ -53,11 +53,16 @@ const slidesData: SlideData[] = [
 	},
 ];
 
-const genres = [
-	{ name: "Policier", img: "/images/HistoireImg/genrePolicier.webp" },
-	{ name: "Romance", img: "/images/HistoireImg/genreRomance.webp" },
-	{ name: "Science-Fiction", img: "/images/HistoireImg/genreSCFI.webp" },
-	{ name: "Fantastique", img: "/images/HistoireImg/genreFantasy.webp" },
+const genresMap = [
+	{ nom: "Fantastique", img: "/images/HistoireImg/genreFantasy.webp" },
+	{ nom: "Horreur", img: "/images/HistoireImg/genreHorreur.webp" },
+	{ nom: "Science-Fiction", img: "/images/HistoireImg/genreSCFI.webp" },
+	{ nom: "Romance", img: "/images/HistoireImg/genreRomance.webp" },
+	{ nom: "Aventure", img: "/images/HistoireImg/genreAventure.webp" },
+	{ nom: "Policier", img: "/images/HistoireImg/genrePolicier.webp" },
+	{ nom: "Drame", img: "/images/HistoireImg/genreDrame.webp" },
+	{ nom: "Humour", img: "/images/HistoireImg/genreHumour.webp" },
+	{ nom: "Anecdote", img: "/images/HistoireImg/genreAnecdote.webp" },
 ];
 
 export default function HomePage() {
@@ -215,7 +220,11 @@ export default function HomePage() {
 										<HistoireCard
 											histoireWithImage={{
 												id: "",
-												image: "",
+												image:
+													genresMap.find(
+														(g) =>
+															g.nom === genre.nom
+													)?.img || "",
 												titre: genre.nom,
 												contenu: "",
 												auteur: "",
