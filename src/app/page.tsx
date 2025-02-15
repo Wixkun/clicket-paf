@@ -147,7 +147,7 @@ export default function HomePage() {
 											alt={slide.titre}
 											className='absolute top-0 left-0 w-full h-full object-cover'
 										/>
-										<div className='relative z-10 flex items-center h-full bg-black/50'>
+										<div className='relative z-10 flex items-center h-full bg-black/50 pl-40 max-md:pl-0'>
 											<div className='max-w-xl text-white p-6 md:p-10'>
 												<h2 className='text-2xl md:text-3xl font-bold mb-4'>
 													{slide.titre}
@@ -161,7 +161,7 @@ export default function HomePage() {
 												</p>
 												<Link
 													href={`/histoires/${slide.slug}`}
-													className='inline-block px-3 py-1.5 text-sm bg-violet-600 text-white rounded-full font-medium transition-all duration-300 hover:bg-violet-700 hover:scale-105 border border-violet-500 shadow-lg shadow-violet-500/20'
+													className='mt-4 inline-block px-3 py-1.5 text-sm bg-violet-600 text-white rounded-full font-medium transition-all duration-300 hover:bg-violet-700 hover:scale-105 border border-violet-500 shadow-lg shadow-violet-500/20'
 												>
 													Lire la suite
 												</Link>
@@ -243,7 +243,7 @@ export default function HomePage() {
 
 				<section className='mx-60 max-[1400px]:mx-10 mb-20'>
 					<h2 className='text-2xl font-semibold mb-4 text-white'>
-						Latest Stories
+						Les dernières histoires
 					</h2>
 					<div className='flex flex-row gap-4 w-full max-lg:flex-col'>
 						<article className='w-2/3 max-lg:w-full'>
@@ -261,6 +261,7 @@ export default function HomePage() {
 								</Link>
 							)}
 						</article>
+
 						<aside className='w-1/3 flex flex-col gap-4 max-lg:w-full max-lg:grid max-lg:grid-cols-2 max-md:grid-cols-1'>
 							{lastStoriesLoading &&
 								Array.from({ length: 3 }).map((_, index) => (
