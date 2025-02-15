@@ -1,107 +1,293 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
+import { usePathname } from "next/navigation";
 
-const Header = ({variant}:{variant:string}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isTop, setIsTop] = useState(true);
+interface HeaderProps {
+	variant: string;
+}
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsTop(window.scrollY < 50);
-    };
+const Header: React.FC<HeaderProps> = ({ variant }) => {
+	const [isOpen, setIsOpen] = useState(false);
+	const [isTop, setIsTop] = useState(true);
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const dropdownRef = useRef<HTMLLIElement | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [user, setUser] = useState<User | null>(null);
+	const pathname = usePathname();
+	const supabase = createClient();
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+	useEffect(() => {
+		const handleScroll = () => setIsTop(window.scrollY < 50);
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
 
-  return (
-    <header>
-      <nav className={`fixed w-full py-4 z-10 max-md:justify-between max-md:px-8 flex justify-around items-center transition-colors duration-300 ${
-        (isTop && variant === "landing") ? "bg-transparent text-white" : "bg-white text-black"
-      }`}
-           aria-label="Navigation principale"
-      >
-        <Link href="/" className="text-xl font-bold" title="Retour à l'accueil">
-          Click&Paf.
-        </Link>
+	useEffect(() => {
+		const getUser = async () => {
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+			setUser(user);
+			setIsLoading(false);
+		};
 
-        <ul className="hidden md:flex items-center gap-8">
-          <li>
-            <Link href="/" aria-current="page">
-              Accueil
-            </Link>
-          </li>
-          <li>
-            <Link href="/histoires">Histoires</Link>
-          </li>
-          <li>
-            <Link href="/about">À propos</Link>
-          </li>
-          <li>
-            <Link href="/contact-us" className="text-black text-sm font-medium">
-              Contact
-            </Link>
+		getUser();
+	}, []);
 
-          </li>
-        </ul>
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				setIsDropdownOpen(false);
+			}
+		};
 
-        <button
-          className="md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Ouvrir le menu"
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
-        >
-          {isOpen ? (
-            <CloseIcon className="w-6 h-6" />
-          ) : (
-            <MenuIcon className="w-6 h-6" />
-          )}
-        </button>
-      </nav>
+		if (isDropdownOpen) {
+			document.addEventListener("mousedown", handleClickOutside);
+		} else {
+			document.removeEventListener("mousedown", handleClickOutside);
+		}
 
-      {isOpen && (
-        <div
-          id="mobile-menu"
-          className={`
+		return () =>
+			document.removeEventListener("mousedown", handleClickOutside);
+	}, [isDropdownOpen]);
+
+	const handleLogout = async () => {
+		setIsDropdownOpen(false);
+		const { error } = await supabase.auth.signOut();
+		if (error) {
+			console.error("Erreur lors de la déconnexion:", error);
+		} else {
+			window.location.reload();
+		}
+	};
+
+	const navClasses = `
+    fixed w-full py-4 z-10 transition-colors duration-300 max-md:px-8
+    flex items-center justify-around max-md:justify-between
+    ${
+		variant === "landing"
+			? isTop && !isOpen
+				? "bg-transparent text-white"
+				: "bg-zinc-950 text-white"
+			: "bg-zinc-950 text-white border-b"
+	}
+  `;
+
+	if (isLoading) {
+		return (
+			<header>
+				<nav className={navClasses}>
+					<Link href='/' className='text-xl font-bold'>
+						ClickEtPaf.
+					</Link>
+					<div className='animate-pulse h-8 w-24 bg-gray-200 rounded-full' />
+				</nav>
+			</header>
+		);
+	}
+
+	return (
+		<header>
+			<nav className={navClasses} aria-label='Navigation principale'>
+				<Link
+					href='/'
+					className='text-xl font-bold'
+					title="Retour à l'accueil"
+				>
+					ClickEtPaf.
+				</Link>
+
+				<ul className='hidden md:flex items-center gap-8'>
+					<li>
+						<Link
+							className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+							href='/histoires'
+						>
+							Histoires
+						</Link>
+					</li>
+					<li>
+						<Link
+							className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+							href='/about'
+						>
+							À propos
+						</Link>
+					</li>
+					<li>
+						<Link
+							className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+							href='/contact'
+						>
+							Contact
+						</Link>
+					</li>
+
+					{user ? (
+						<li className='relative' ref={dropdownRef}>
+							<div
+								onMouseEnter={() => setIsDropdownOpen(true)}
+								className='cursor-pointer flex items-center'
+							>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									fill='none'
+									viewBox='0 0 24 24'
+									strokeWidth='1.5'
+									stroke='currentColor'
+									className='w-6 h-6'
+								>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										d='M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z'
+									/>
+								</svg>
+							</div>
+
+							{isDropdownOpen && (
+								<div
+									className='absolute right-0 mt-2 w-40 rounded-md shadow-md bg-white text-black'
+									onMouseLeave={() =>
+										setIsDropdownOpen(false)
+									}
+								>
+									<Link
+										href='/profil'
+										className='block px-3 py-2 hover:bg-gray-200'
+										onClick={() => setIsDropdownOpen(false)}
+									>
+										Profil
+									</Link>
+									<button
+										onClick={() => {
+											handleLogout();
+										}}
+										className='w-full text-left px-3 py-2 hover:bg-gray-200'
+									>
+										Logout
+									</button>
+								</div>
+							)}
+						</li>
+					) : (
+						<li>
+							<Link
+								href={`/login?redirectTo=${encodeURIComponent(
+									pathname
+								)}`}
+								className='transition px-4 py-2 rounded-full bg-white text-black hover:bg-black hover:text-white'
+							>
+								Connexion
+							</Link>
+						</li>
+					)}
+				</ul>
+
+				<button
+					className='md:hidden'
+					onClick={() => setIsOpen(!isOpen)}
+					aria-label='Ouvrir le menu'
+				>
+					{isOpen ? (
+						<CloseIcon className='w-6 h-6' />
+					) : (
+						<MenuIcon className='w-6 h-6' />
+					)}
+				</button>
+			</nav>
+
+			{isOpen && (
+				<div
+					id='mobile-menu'
+					role='menu'
+					className={`
             md:hidden w-full fixed top-16 left-0 shadow-lg -mt-2 z-20
-            ${isTop ? "bg-black text-white" : "bg-white text-black"}
+            ${
+				isTop && variant === "landing"
+					? "bg-black text-white"
+					: "bg-white text-black"
+			}
           `}
-          role="menu"
-        >
-          <ul className="flex flex-col items-center gap-4 py-4">
-            <li role="menuitem">
-              <Link href="/" onClick={() => setIsOpen(false)}>
-                Accueil
-              </Link>
-            </li>
-            <li role="menuitem">
-              <Link href="/histoires" onClick={() => setIsOpen(false)}>
-                Histoires
-              </Link>
-            </li>
-            <li role="menuitem">
-              <Link href="/about" onClick={() => setIsOpen(false)}>
-                À propos
-              </Link>
-            </li>
-            <li role="menuitem">
-              <Link
-                href="/contact-us"
-                className="text-black text-sm font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
-    </header>
-  );
+				>
+					<ul className='flex flex-col items-center gap-4 py-4'>
+						<li>
+							<Link
+								className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+								href='/histoires'
+								onClick={() => setIsOpen(false)}
+							>
+								Histoires
+							</Link>
+						</li>
+						<li>
+							<Link
+								className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+								href='/about'
+								onClick={() => setIsOpen(false)}
+							>
+								À propos
+							</Link>
+						</li>
+						<li>
+							<Link
+								className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+								href='/contact'
+								onClick={() => setIsOpen(false)}
+							>
+								Contact
+							</Link>
+						</li>
+
+						{user ? (
+							<>
+								<li>
+									<Link
+										href='/profil'
+										onClick={() => setIsOpen(false)}
+										className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+									>
+										Profil
+									</Link>
+								</li>
+								<li>
+									<button
+										onClick={() => {
+											setIsOpen(false);
+											handleLogout();
+										}}
+										className='text-md transition hover:bg-white hover:bg-opacity-20 p-2 rounded-full'
+									>
+										Logout
+									</button>
+								</li>
+							</>
+						) : (
+							<li>
+								<Link
+									href={`/login?redirectTo=${encodeURIComponent(
+										pathname
+									)}`}
+									onClick={() => setIsOpen(false)}
+									className='transition px-4 py-2 rounded-full bg-white text-black hover:bg-black hover:text-white'
+								>
+									Connexion
+								</Link>
+							</li>
+						)}
+					</ul>
+				</div>
+			)}
+		</header>
+	);
 };
 
 export default Header;
